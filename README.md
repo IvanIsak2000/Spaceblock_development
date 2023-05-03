@@ -7,9 +7,16 @@ Self-hosting social network with clear public API
 
 ## Usage HOWTO
 
-The webapplication can be launched with the following command:
+
+### client.py
+
 ```bash
-python3 src/app.py <flask cookie password>
+python3 client.py <your user_name> <your user_token>
+```
+
+### server.py
+```bash
+uvicorn server:app --reload
 ```
 
 ## Found a bug?
