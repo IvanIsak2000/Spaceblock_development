@@ -25,7 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - blank `sign_in.html`
 
 [v.0.0.3]
-## Added
+### Added
+
 - `client.py`: added a template for sending a request to the server
 - `config.py`: contains a parameter to contact the server
 - `database.toml`: empty database with header
