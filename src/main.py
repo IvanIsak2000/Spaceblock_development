@@ -2,38 +2,29 @@ import socket
 import os 
 import sys 
 import tomllib
-import asyncio  
+import asyncio
+from datetime import datetime
 
 
 def read():
     host = socket.gethostname()
     your_ip =socket.gethostbyname(host)
     print('Your IP: ', your_ip)
-    print('Waiting connection... ')
-    
+    print('We are waiting for messages...')
     port = 5000 
-
     server_socket = socket.socket()
- 
     server_socket.bind((host, port)) 
-
- 
     server_socket.listen(2)
     conn, address = server_socket.accept()  
-    os.system('cls')
-    print('Connection! ')
-    print(" from: " + str(address))
-    while True:
-        # receive data stream. it won't accept data packet greater than 1024 bytes
-        data = conn.recv(1024).decode()
-        if not data:
-            # if data is not received break
-            break
-        print("from connected user: " + str(data))
-        data = input(' -> ')
-        conn.send(data.encode())  # send data to the client
 
-    conn.close()  # close the connection
+    os.system('cls')
+    data = conn.recv(1024).decode()
+    date_info = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+    print(f"[{(address[0])}] [{date_info}]: " + str(data))
+    conn.close() 
+
+    for_exit = input('For exit...')
+     
 
 
 def send():
@@ -62,30 +53,30 @@ def send():
 
     """
     print(image)
-    host = input('Enter a people IP \ username: ')
 
-    your_host = socket.gethostname()
-    your_host=socket.gethostbyname(your_host)
-    port = 5000  
+    host = str(input('Enter  a friend IP: '))
+    port = 5000 
     client_socket = socket.socket()  
-    client_socket.connect((host, port))    
+    client_socket.connect((host, port))  
+    print(f'Your friend with IP {host} online!')
+    message = input("Enter your message: ")  
+    print('Message sent successfully!')
+
     client_socket.send(message.encode())  
-    data = client_socket.recv(1024).decode()  
+    data = client_socket.recv(1024).decode() 
+    client_socket.close()
 
-    print(f'{address}: {data}')  
-
-    message = input(" -> ")  
-
-    client_socket.close() 
-
-
+    for_exit = input('For exit...')
 
 if __name__ == '__main__':
+    try:
+        move = sys.argv[1]
 
-    move = sys.argv[1]
+        if move == 'r':
+            read()
 
-    if move == 'r':
-        read()
-
-    elif move == 's':
-        send()
+        elif move == 's':
+            send()
+    except Exception as err:
+        print(err)
+        for_exit = input()
