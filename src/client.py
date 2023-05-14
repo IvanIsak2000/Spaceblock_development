@@ -1,14 +1,5 @@
-#!/usr/bin/env python3
-
-import sys
-import os
-import requests
-from rich.console import Console
-from rich.table import Table
-
-from config import SERVER_URL
-
-console = Console()
+import socket
+import os 
 
 image ="""                                                                                                                                                                                         
                .                                                                                                                                                                                        
@@ -30,70 +21,37 @@ image ="""
             :J7~!Y^                                                                                                                                                                                     
             ~B:  P?                                                                                                                                                                                     
             ~G! ~G7                                                                                                                                                                                     
-             :J5Y^                                                                                                                                                                                                                                                                                                                                                                                      
-
-"""
-
-def log_in(user_name: str, user_token: str) -> str:
-    
-    
-    server_response = requests.get(
-        f'{SERVER_URL}/log_in/{user_name}/{user_token}')
-    status = server_response.status_code
-
-    if status == 200:
-
-        if server_response.content == b'true':
-            try:
-                os.system('cls')
-            except:
-                os.system('clear')
-
-            console.print("                                                Welcome", style="green")
-            table = Table(title="")
-            table.add_column("Menu", justify="right", style="cyan", no_wrap=True)
-            table.add_column("                                                                                                                       ", style="magenta")
-
-            table.add_row("Account")
-            table.add_row("")
-            table.add_row("Wall")
-            table.add_row("")
-            table.add_row("Settings" )
-            table.add_row("")
-            table.add_row("Exit")
-            table.add_row("")
-            table.add_row("")
-            table.add_row("")
-            table.add_row("")
-
-            console.print(table)
-
-            command = input('Press any buttons...')
-                    
-
-            
-
-        else:
-            print('There is no account with this username/usertoken!')
-
-    else:
-        print('Check if you are connected to the network/ if the server is available on the official website')
-        print(f'Request status {status}')
+             :J5Y^ 
+             
+                                                                                                                                                                                                                                                                                                                                                                                                 
+        """
 
 
+def client_program():
 
-
-try:
     os.system('mode con: cols=200 lines=40')
     print(image)
-    print('Hello!')
-    name = str(input('Enter your account name '))
-    token = str(input('Enter your account token: '))
-    # name = str(sys.argv[1])
-    # token = str(sys.argv[2])
-    log_in(name, token)
-    
+    host = input('Enter a IP: ')
+
+    your_host = socket.gethostname()
+    your_host=socket.gethostbyname(your_host)
+    print(your_host)  
+    port = 5000  # socket server port number
+    client_socket = socket.socket()  # instantiate
+    client_socket.connect((host, port))  # connect to the server
+
+    message = input(" -> ")  # take input
+
+    while message.lower().strip() != 'bye':
+        client_socket.send(message.encode())  # send message
+        data = client_socket.recv(1024).decode()  # receive response
+
+        print('Received from server: ' + data)  # show in terminal
+
+        message = input(" -> ")  # again take input
+
+    client_socket.close()  # close the connection
 
 
-except Exception as err:
-    print(f"{err}\nYou must enter correctly: <username> <usertoken>")
+if __name__ == '__main__':
+    client_program()
