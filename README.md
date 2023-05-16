@@ -1,23 +1,28 @@
-# Spaceblock
+# cosmoterm
 
-Self-hosting social network with clear public API 
+Terminal messenger using p2p technologies
 (project is currently *in development*)
 
-![home page](docs/landing.png)
+![image](https://github.com/IvanIsak2000/Spaceblock_development/assets/79650307/3afec5a6-0503-4198-b270-e5a8e2eb280e)
+
+
+
 
 ## Usage HOWTO
 
-
-### client.py
-
+### Read messages
 ```bash
-python3 client.py <your user_name> <your user_token>
+python3 main.py --r
 ```
 
-### server.py
+### Send messages
 ```bash
-uvicorn server:app --reload
+python3 main.py --s
 ```
+
+
+
+
 
 ## Found a bug?
 
